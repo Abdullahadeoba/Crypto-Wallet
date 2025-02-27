@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/web3modal/1.9.8/web3modal.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/walletconnect/1.7.1/walletconnect.min.js"></script> -->
+
+    <!-- Include Ethers.js -->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/ethers/5.7.2/ethers.umd.min.js"></script>
+    
+    <!-- Include WalletConnect Provider -->
+    <script src="https://cdn.jsdelivr.net/npm/@walletconnect/web3-provider@1.6.6/dist/umd/index.min.js"></script>
+    
+    <!-- Include Web3Modal -->
+    <script src="https://unpkg.com/web3modal@1.9.10/dist/index.js"></script>
+    <title>Crypto Wallet</title>
+     <!-- link css sylesheet -->
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+
+    <div class="container">
+        <h1>Crypto Wallet</h1>
+        
+        <!-- Wallet Connection Section -->
+        <div class="wallet-container">
+            <button id="connectWallet">Connect Wallet</button>
+            <button id="disconnectWallet" style="display: none;">Disconnect Wallet</button>
+        </div>
+
+        <!-- Wallet Info (Hidden before connection) -->
+        <div id="walletInfo" style="display: none;">
+            <p><span id="walletAddress"></span> 📋</p>
+            <p><span id="walletBalance"></span></p>
+        </div>
+
+        <!-- Transaction Section (Hidden before connection) -->
+        <div id="transactionSection" style="display: none;">
+            <h2>Send ETH</h2>
+            <input type="text" id="recipient" placeholder="Recipient Address">
+            <input type="number" id="amount" placeholder="Amount in ETH">
+            <button id="sendTransaction">Send Transaction</button>
+        </div>
+    </div>
+
+    <script src="app.js"></script>
+</body>
+</html>
+
+
