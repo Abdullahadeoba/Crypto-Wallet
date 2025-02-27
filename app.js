@@ -1,39 +1,35 @@
-// Import dependencies (for ES6 Modules)
-// Uncomment this if using Webpack, Vite, or modern JavaScript frameworks
-// import Web3Modal from "web3modal";
-// import { ethers } from "ethers";
-// import WalletConnectProvider from "@walletconnect/web3-provider";
+// ✅ Ensure Web3Modal, WalletConnect, and Ethers.js are loaded!
+console.log("Initializing Crypto Wallet...");
 
 let web3Modal;
 let provider;
 let signer;
 let userAddress;
 
-// ✅ Initialize Web3Modal
+// ✅ Initialize Web3Modal properly
 async function init() {
     console.log("Initializing Web3Modal...");
 
     const providerOptions = {
         walletconnect: {
-            package: WalletConnectProvider, // Ensure correct import
+            package: WalletConnectProvider.default, // ✅ Ensure correct package usage
             options: {
-                infuraId: "017e0a921b4541a2addc0aa406b1bbfd"
+                infuraId: "017e0a921b4541a2addc0aa406b1bbfd" // ✅ Use your own Infura ID
             }
         }
     };
 
-    web3Modal = new Web3Modal.default({ // Fix instantiation
+    web3Modal = new Web3Modal.default({ // ✅ FIX: Ensure correct instantiation
         cacheProvider: false,
         providerOptions
     });
 
-    // Hide sections initially
-    document.getElementById("walletInfo").style.display = "none";
-    document.getElementById("transactionSection").style.display = "none";
-    document.getElementById("disconnectWallet").style.display = "none";
+    document.getElementById("walletInfo").classList.add("hidden");
+    document.getElementById("transactionSection").classList.add("hidden");
+    document.getElementById("disconnectWallet").classList.add("hidden");
 }
 
-// ✅ Connect Wallet
+// ✅ Connect Wallet Function (FIXED!)
 async function connectWallet() {
     try {
         console.log("Opening Web3Modal to show available wallets...");
@@ -43,28 +39,29 @@ async function connectWallet() {
         signer = ethersProvider.getSigner();
         userAddress = await signer.getAddress();
 
-        // Fetch Balance
+        // ✅ Fetch Balance Correctly
         const balance = await ethersProvider.getBalance(userAddress);
         const formattedBalance = ethers.utils.formatEther(balance);
 
-        // Update UI
+        // ✅ Update UI Elements
         const addressElement = document.getElementById("walletAddress");
         addressElement.innerHTML = `${userAddress.slice(0, 6)}...${userAddress.slice(-4)}`;
         addressElement.addEventListener("click", () => copyToClipboard(userAddress));
 
-        document.getElementById("walletBalance").innerHTML = `Balance: ${formattedBalance} ETH`;
-        document.getElementById("walletInfo").style.display = "block";
-        document.getElementById("transactionSection").style.display = "block";
+        document.getElementById("walletBalance").innerHTML = formattedBalance;
+        document.getElementById("walletInfo").classList.remove("hidden");
+        document.getElementById("transactionSection").classList.remove("hidden");
 
-        document.getElementById("connectWallet").style.display = "none";
-        document.getElementById("disconnectWallet").style.display = "block";
+        document.getElementById("connectWallet").classList.add("hidden");
+        document.getElementById("disconnectWallet").classList.remove("hidden");
 
     } catch (error) {
         console.error("Connection failed:", error);
+        alert("Wallet connection failed! Check console for details.");
     }
 }
 
-// ✅ Disconnect Wallet
+// ✅ Disconnect Wallet (FIXED!)
 async function disconnectWallet() {
     console.log("Disconnecting Wallet...");
 
@@ -76,17 +73,15 @@ async function disconnectWallet() {
     signer = null;
     userAddress = null;
 
-    // Reset UI
-    document.getElementById("walletAddress").innerHTML = "";
-    document.getElementById("walletBalance").innerHTML = "";
-    document.getElementById("walletInfo").style.display = "none";
-    document.getElementById("transactionSection").style.display = "none";
+    // ✅ Reset UI
+    document.getElementById("walletInfo").classList.add("hidden");
+    document.getElementById("transactionSection").classList.add("hidden");
 
-    document.getElementById("connectWallet").style.display = "block";
-    document.getElementById("disconnectWallet").style.display = "none";
+    document.getElementById("connectWallet").classList.remove("hidden");
+    document.getElementById("disconnectWallet").classList.add("hidden");
 }
 
-// ✅ Copy address to clipboard
+// ✅ Copy Wallet Address
 function copyToClipboard(text) {
     navigator.clipboard.writeText(text).then(() => {
         alert("Wallet Address Copied!");
@@ -95,7 +90,7 @@ function copyToClipboard(text) {
     });
 }
 
-// ✅ Send ETH Transaction
+// ✅ Send Transaction (ETH)
 async function sendTransaction() {
     try {
         const recipient = document.getElementById("recipient").value;
@@ -120,12 +115,14 @@ async function sendTransaction() {
     }
 }
 
-// ✅ Ensure event listeners are attached after DOM loads
+// ✅ Ensure Event Listeners Work!
 document.addEventListener("DOMContentLoaded", () => {
     document.getElementById("connectWallet").addEventListener("click", connectWallet);
     document.getElementById("disconnectWallet").addEventListener("click", disconnectWallet);
     document.getElementById("sendTransaction").addEventListener("click", sendTransaction);
 });
 
-// ✅ Initialize Web3Modal
+// ✅ Initialize Web3Modal (Finally Fixed!)
 init();
+
+
